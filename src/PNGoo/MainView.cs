@@ -296,7 +296,7 @@ namespace PNGoo
             foreach (DataGridViewRow row in fileBatchDataGridView.Rows)
             {
                 // We know we're dealing with a new file if the optimised size col isn't empty
-                if (row.Cells["OptimisedSizeColumn"].Value != String.Empty)
+                if ((string)row.Cells["OptimisedSizeColumn"].Value != String.Empty)
                 {
                     row.Cells["FileColumn"].Value = row.Cells["RealFileColumn"].Value;
                 }
