@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace PNGoo.BatchOperations
 {
@@ -52,6 +53,8 @@ namespace PNGoo.BatchOperations
                 try
                 {
                     Compressor.PNGCompressor pngCompressor = compress(filePath);
+                    // this stores the compressor that produced the smallest file
+                    Compressor.PNGCompressor winningCompressor = pngCompressor;
                     byte[] fileToWrite = pngCompressor.CompressedFile;
                     string outputDirectory = OutputDirectory;
                     // we may be getting a jpg as input, make sure we output png
@@ -63,6 +66,8 @@ namespace PNGoo.BatchOperations
                         pngCompressor.CompressedFile.Length >= pngCompressor.OriginalFile.Length)
                     {
                         fileToWrite = pngCompressor.OriginalFile;
+                        // there was no winning compressor
+                        winningCompressor = null;
                     }
 
                     // we're going to output to the same directory, overwriting files if needed
@@ -71,14 +76,14 @@ namespace PNGoo.BatchOperations
                         outputDirectory = Path.GetDirectoryName(filePath);
                     }
 
+                    // build the file path
                     string outputFilePath = outputDirectory + "/" + fileName;
 
                     // output the file
-                    File.WriteAllBytes(outputDirectory + "/" + fileName, fileToWrite);
+                    File.WriteAllBytes(outputFilePath, fileToWrite);
 
                     // fire the success event
-                    // TODO: compressor should be null if file is simply copied
-                    FileProcessSuccessEventArgs e = new FileProcessSuccessEventArgs(filePath, i, pngCompressor);
+                    FileProcessSuccessEventArgs e = new FileProcessSuccessEventArgs(filePath, outputFilePath, i, winningCompressor);
                     OnFileProcessSuccess(e);
                 }
                 catch (Exception e)

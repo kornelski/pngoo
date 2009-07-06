@@ -263,9 +263,11 @@ namespace PNGoo
                     MessageBoxIcon.Exclamation);
                 return;
             }
-            
+
+            // update output
+            updateFileColsToNewFile();
+
             // let's start the batch
-            // todo, this should go in a different thread
             BatchOperations.BatchFileCompressor batch = new BatchOperations.BatchFileCompressor();
             batch.OutputDirectory = outputDirectoryTextBox.Text;
             batch.OutputIfLarger = overwriteIfLargerCheckBox.Checked;
@@ -285,6 +287,22 @@ namespace PNGoo
             batch.Start();
         }
 
+        /// <summary>
+        /// Updates the 'file' col to reflect the path of the last written file, in
+        /// the case of recompression.
+        /// </summary>
+        void updateFileColsToNewFile()
+        {
+            foreach (DataGridViewRow row in fileBatchDataGridView.Rows)
+            {
+                // We know we're dealing with a new file if the optimised size col isn't empty
+                if (row.Cells["OptimisedSizeColumn"].Value != String.Empty)
+                {
+                    row.Cells["FileColumn"].Value = row.Cells["RealFileColumn"].Value;
+                }
+            }
+        }
+
         void batch_FileProcessFail(object sender, PNGoo.BatchOperations.FileProcessFailEventArgs e)
         {
             DataGridViewRow row = fileBatchDataGridView.Rows[e.FilePathIndex];
@@ -295,11 +313,12 @@ namespace PNGoo
         {
             DataGridViewRow row = fileBatchDataGridView.Rows[e.FilePathIndex];
 
-            
             if (e.Compressor != null)
             {
                 // update optimised size column
                 row.Cells["OptimisedSizeColumn"].Value = formatFileSize(e.Compressor.CompressedFile.Length);
+                // update actual file row to point to the new file, so further compressions act on the new file
+                row.Cells["RealFileColumn"].Value = e.NewFilePath;
                 // update status
                 string compressorUsed = e.Compressor.GetType().Name;
                 row.Cells["StatusColumn"].Value = String.Format("Complete: {0} used", compressorUsed);
