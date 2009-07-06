@@ -12,15 +12,27 @@ namespace PNGoo.BatchOperations
     /// </summary>
     public class FileProcessSuccessEventArgs : EventArgs
     {
-        private string filePath;
+        private string originalFilePath;
         /// <summary>
         /// Path to the original file
         /// </summary>
-        public string FilePath
+        public string OriginalFilePath
         {
             get
             {
-                return filePath;
+                return originalFilePath;
+            }
+        }
+
+        private string newFilePath;
+        /// <summary>
+        /// Path to the newly (over)written file
+        /// </summary>
+        public string NewFilePath
+        {
+            get
+            {
+                return newFilePath;
             }
         }
 
@@ -52,13 +64,15 @@ namespace PNGoo.BatchOperations
         /// <summary>
         /// Arguments for a successful file process
         /// </summary>
-        /// <param name="filePath">Path to the original file</param>
+        /// <param name="originalFilePath">Path to the original file</param>
+        /// <param name="newFilePath">Path to the newly (over)written file</param>
         /// <param name="filePathIndex">Index in the set of files given to the batch</param>
         /// <param name="compressor">Compressor that produced the smallest file</param>
-        public FileProcessSuccessEventArgs(string filePath, int filePathIndex, Compressor.PNGCompressor compressor)
+        public FileProcessSuccessEventArgs(string originalFilePath, string newFilePath, int filePathIndex, Compressor.PNGCompressor compressor)
             : base()
         {
-            this.filePath = filePath;
+            this.originalFilePath = originalFilePath;
+            this.newFilePath = newFilePath;
             this.filePathIndex = filePathIndex;
             this.compressor = compressor;
         }
