@@ -20,7 +20,7 @@ namespace PNGoo.Compressor
         /// <param name="fileToCompress">Data to compress</param>
         public PNGQuant (byte[] fileToCompress) : base (fileToCompress)
         {
-            cmdLocation = AppDomain.CurrentDomain.BaseDirectory + @"\libs\pngquanti.exe";
+            cmdLocation = AppDomain.CurrentDomain.BaseDirectory + @"\libs\pngquanti\pngquanti.exe";
         }
 
         /// <summary>

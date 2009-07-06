@@ -77,7 +77,7 @@ namespace PNGoo.BatchOperations
                     }
 
                     // build the file path
-                    string outputFilePath = outputDirectory + "/" + fileName;
+                    string outputFilePath = System.IO.Path.Combine(outputDirectory, fileName);
 
                     // output the file
                     File.WriteAllBytes(outputFilePath, fileToWrite);

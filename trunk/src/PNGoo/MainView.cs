@@ -288,7 +288,7 @@ namespace PNGoo
         }
 
         /// <summary>
-        /// Updates the 'file' col to reflect the path of the last written file, in
+        /// Updates the 'file' and 'original' cols to reflect the path of the last written file, in
         /// the case of recompression.
         /// </summary>
         void updateFileColsToNewFile()
@@ -299,6 +299,7 @@ namespace PNGoo
                 if ((string)row.Cells["OptimisedSizeColumn"].Value != String.Empty)
                 {
                     row.Cells["FileColumn"].Value = row.Cells["RealFileColumn"].Value;
+                    row.Cells["OriginalSizeColumn"].Value = row.Cells["OptimisedSizeColumn"].Value;
                 }
             }
         }

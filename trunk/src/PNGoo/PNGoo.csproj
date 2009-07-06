@@ -121,7 +121,10 @@
     <Content Include="libs\pngcrush.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="libs\pngquanti.exe">
+    <Content Include="libs\pngquanti\pngquanti.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libs\pngquanti\README.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="libs\testimg.png">
