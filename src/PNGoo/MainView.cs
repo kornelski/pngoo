@@ -55,9 +55,12 @@ namespace PNGoo
         private void addFileToBatch(string path, string display)
         {
             FileInfo fileInfo = new FileInfo(path);
-            // we don't accept directories (yet)
             if (fileInfo.Attributes == FileAttributes.Directory)
             {
+                foreach (String s in Directory.GetFiles(path, "*.png", SearchOption.AllDirectories))
+                {
+                    addFileToBatch(s);
+                }
                 return;
             }
             // search for duplicates of the current file
